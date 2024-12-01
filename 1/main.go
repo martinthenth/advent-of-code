@@ -4,9 +4,9 @@ import (
 	_ "embed"
 	"flag"
 	"fmt"
+	"sort"
+	"strconv"
 	"strings"
-
-	utilities "github.com/martinthenth/advent-of-code"
 )
 
 //go:embed input.txt
@@ -25,21 +25,53 @@ func main() {
 	flag.Parse()
 	fmt.Println("Running part", part)
 
+	lines := strings.Split(input, "\n")
+	list1, list2 := []int{}, []int{}
+	for _, line := range lines {
+		numbers := strings.Fields(line)
+		number1, _ := strconv.Atoi(numbers[0])
+		number2, _ := strconv.Atoi(numbers[1])
+
+		list1 = append(list1, number1)
+		list2 = append(list2, number2)
+	}
+
 	if part == 1 {
-		answer := part1(input)
-		utilities.CopyToClipboard(fmt.Sprintf("%v", answer))
-		fmt.Println("Output:", answer)
+		fmt.Println("Output:", part1(list1, list2))
 	} else {
-		answer := part2(input)
-		utilities.CopyToClipboard(fmt.Sprintf("%v", answer))
-		fmt.Println("Output:", answer)
+		fmt.Println("Output:", part2(list1, list2))
 	}
 }
 
-func part1(input string) int {
-	return 0
+func part1(list1 []int, list2 []int) int {
+	sort.Ints(list1)
+	sort.Ints(list2)
+
+	result := 0
+	for i := 0; i < len(list1) && i < len(list2); i++ {
+		result += abs(list2[i] - list1[i])
+	}
+
+	return result
 }
 
-func part2(input string) int {
-	return 0
+func part2(list1 []int, list2 []int) int {
+	counts := map[int]int{}
+	for _, number := range list2 {
+		counts[number]++
+	}
+
+	result := 0
+	for _, number := range list1 {
+		result += number * counts[number]
+	}
+
+	return result
+}
+
+func abs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }

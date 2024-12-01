@@ -8,16 +8,22 @@ import (
 
 func TestPart1(t *testing.T) {
 	t.Run("example", func(t *testing.T) {
-		result := part1("example")
+		numbers1 := []int{3, 4, 2, 1, 3, 3}
+		numbers2 := []int{4, 3, 5, 3, 9, 3}
 
-		assert.Equal(t, result, 1)
+		result := part1(numbers1, numbers2)
+
+		assert.Equal(t, 11, result)
 	})
 }
 
 func TestPart2(t *testing.T) {
 	t.Run("example", func(t *testing.T) {
-		result := part2("example")
+		numbers1 := []int{3, 4, 2, 1, 3, 3}
+		numbers2 := []int{4, 3, 5, 3, 9, 3}
 
-		assert.Equal(t, result, 0)
+		result := part2(numbers1, numbers2)
+
+		assert.Equal(t, 31, result)
 	})
 }
